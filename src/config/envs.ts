@@ -6,11 +6,15 @@ import * as joi from 'joi';
 
 interface EnvVars {
   PORT: number;
+  INVOICES_MICROSERVICES_HOST: string;
+  INVOICES_MICROSERVICES_PORT: number;
 }
 
 const envsSchema = joi
   .object({
     PORT: joi.number().required(),
+    INVOICES_MICROSERVICES_HOST: joi.string().required(),
+    INVOICES_MICROSERVICES_PORT: joi.number().required(),
   })
   .unknown(true);
 
@@ -23,4 +27,6 @@ const envVars: EnvVars = value;
 
 export const envs = {
   port: envVars.PORT,
+  invoiceHost: envVars.INVOICES_MICROSERVICES_HOST,
+  invoicePort: envVars.INVOICES_MICROSERVICES_PORT,
 };

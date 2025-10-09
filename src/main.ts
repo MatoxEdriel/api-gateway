@@ -11,5 +11,7 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 
   logger.log(`Gateway corriendo en el puerto ${envs.port}`);
+  logger.log(`invoice host  ${envs.invoiceHost}`);
 }
+
 bootstrap();
