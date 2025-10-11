@@ -18,22 +18,13 @@ export class InvoiceService {
         return firstValueFrom(this.client.send({ cmd: 'find_all_invoices' }, {}));
     }
 
-    async downloadPdf(tableData: any): Promise<Buffer> {
+
+    async generatePdf(options: any): Promise<Buffer> {
         const result = await firstValueFrom(
-            this.client.send({ cmd: 'download-pdf' }, tableData),
+            this.client.send({ cmd: 'generate-pdf' }, options)
         );
         return Buffer.from(result?.data ?? result);
     }
-
-
-    async generatePdfFromHtml(html: string): Promise<Buffer> {
-    const result = await firstValueFrom(
-      this.client.send({ cmd: 'generate-pdf' }, html),
-    );
-
-        return Buffer.from(result?.data ?? result);
-
-  }
 
 
 }

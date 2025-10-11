@@ -14,40 +14,11 @@ export class InvoiceController {
     return this.invoiceService.findAll();
   }
 
-   @Post('pdf')
-  async generatePdf(@Body() body: { columns: string[], data: any[] }, @Res() res: Response) {
-    const pdfBuffer = await this.invoiceService.downloadPdf(body);
-
-    res.set({
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="facturas.pdf"',
-      'Content-Length': pdfBuffer.length,
-    });
-
-    res.end(pdfBuffer);
+  @Post('pdf')
+  async generatePdf(@Body() data: any, @Res() res: Response) {
+    const pdf = await this.invoiceService.generatePdf(data);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="document.pdf"`);
+    res.end(pdf);
   }
-
-
-  @Post('pdf/html')
-async generatePdfFromHtml(
-  @Body() body: { html: string },
-  @Res() res: Response,
-) {
-  try {
-    const pdfBuffer = await this.invoiceService.generatePdfFromHtml(body.html);
-
-    res.set({
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="factura.html.pdf"',
-      'Content-Length': pdfBuffer.length,
-    });
-
-    res.end(pdfBuffer);
-  } catch (error) {
-    console.error('Error generando PDF desde HTML:', error);
-    res.status(500).json({ error: 'PDF generation failed' });
-  }
-}
-
-
 }
