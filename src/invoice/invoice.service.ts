@@ -4,6 +4,22 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 
+export class InvoiceWithTracksDto {
+    invoiceId: number;
+    customerId: number;
+    invoiceDate: Date;
+    total: number;
+    lines: InvoiceLineDto[];
+}
+
+export class InvoiceLineDto {
+    trackName: string;
+    composer?: string;
+    unitPrice: number;
+    quantity: number;
+}
+
+
 @Injectable()
 export class InvoiceService {
     constructor(
@@ -25,6 +41,15 @@ export class InvoiceService {
         );
         return Buffer.from(result?.data ?? result);
     }
+    async findAllWithTracks(): Promise<InvoiceWithTracksDto[]> {
+        return firstValueFrom(
+            this.client.send<InvoiceWithTracksDto[]>(
+                { cmd: 'find_all_invoices_with_tracks' },
+                {}
+            )
+        );
+    }
+
 
 
 }
