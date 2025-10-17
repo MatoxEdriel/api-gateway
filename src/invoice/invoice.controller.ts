@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { InvoiceService } from './invoice.service';
 import type { Response } from 'express';
 @Controller('invoice')
@@ -10,8 +10,13 @@ export class InvoiceController {
   }
 
   @Get()
-  getAll() {
-    return this.invoiceService.findAll();
+  getAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('filter') filter?: string,
+
+  ) {
+    return this.invoiceService.findAll({page, limit, filter});
   }
 
   @Post('pdf')

@@ -30,8 +30,8 @@ export class InvoiceService {
         return firstValueFrom(this.client.send({ cmd: 'create_invoice' }, dto));
     }
 
-    async findAll() {
-        return firstValueFrom(this.client.send({ cmd: 'find_all_invoices' }, {}));
+    async findAll(params: { page: number; limit: number; filter?: string }) {
+        return firstValueFrom(this.client.send({ cmd: 'find_all_invoices' }, params));
     }
 
 
