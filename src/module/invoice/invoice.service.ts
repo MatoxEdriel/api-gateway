@@ -3,27 +3,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-
-export class InvoiceWithTracksDto {
-    invoiceId: number;
-    customerId: number;
-    invoiceDate: Date;
-    total: number;
-    lines: InvoiceLineDto[];
-}
-
-export class InvoiceLineDto {
-    trackName: string;
-    composer?: string;
-    unitPrice: number;
-    quantity: number;
-}
+import { InvoiceWithTracksDto } from './interfaces/invoice.interfaces';
+import { MicroserviceConfig } from 'src/config/microservices.config';
 
 
 @Injectable()
 export class InvoiceService {
     constructor(
-        @Inject('INVOICE_SERVICE') private readonly client: ClientProxy,
+
+        @Inject(MicroserviceConfig.name) private readonly client: ClientProxy,
     ) { }
 
     async create(dto: any) {

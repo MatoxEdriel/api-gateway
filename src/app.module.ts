@@ -4,6 +4,6 @@ import { InvoiceModule } from './module/invoice/invoice.module';
 import { CustomersModule } from './module/customers/customers.module';
 
 @Module({
-  imports: [ProductsModule, InvoiceModule, CustomersModule],
+  imports: [ProductsModule, InvoiceModule, CustomersModule, CustomersModule],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,26 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { firstValueFrom } from 'rxjs';
+import { ClientProxy } from '@nestjs/microservices';
+import { MicroserviceConfig } from 'src/config/microservices.config';
 
 @Injectable()
 export class CustomersService {
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
+
+  constructor(
+
+    @Inject(MicroserviceConfig.name) private readonly client: ClientProxy
+  ) {
+
+
+
   }
 
-  findAll() {
-    return `This action returns all customers`;
+
+
+
+  async findAll(params: { page: number; limit: number; filter?: string }) {
+
+    return firstValueFrom(this.client.send({ cmd: 'findAllCustomers' }, params))
+
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
-  }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
-  }
 }
