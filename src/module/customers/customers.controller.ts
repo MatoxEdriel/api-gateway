@@ -8,8 +8,7 @@ export class CustomersController {
   constructor(private readonly customersService: CustomersService) { }
 
   @Get()
-  findAll(
-
+  async getAll(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
     @Query('filter') filter?: string,
@@ -17,7 +16,7 @@ export class CustomersController {
   ) {
     const params = { page, limit, filter }
 
-    return this.customersService.findAll(params);
+    return this.customersService.getAll(params);
   }
 
 

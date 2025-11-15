@@ -1,28 +1,22 @@
 import { Global, Module } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { CUSTOMER_SERVICE, envs, INVOICE_SERVICE } from "src/config";
-import { MicroserviceConfig } from "src/config/microservices.config";
 @Global()
 @Module({
     imports: [
-        ClientsModule.register([
+        ClientsModule.registerAsync([
             {
 
-                name: MicroserviceConfig.name,
-                transport: Transport.TCP,
-                options: {
-                    host: MicroserviceConfig.host,
-                    port: MicroserviceConfig.port,
-
-
-                }
+                name: 'MAIN_MICROSERVICE',
+                inject: [ConfigService],
+                useFactory: (config: ConfigService) => ({
+                    transport: Transport.TCP,
+                    options: {
+                        host: config.get<string>('PLANTS_MICROSERVICES_HOST'),
+                        port: config.get<number>('PLANTS_MICROSERVICES_PORT')
+                    },
+                }),
             },
-
-
-
-
-
-            //pilas aqui mas
         ]),
     ],
     exports: [ClientsModule],

@@ -4,14 +4,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { InvoiceWithTracksDto } from './interfaces/invoice.interfaces';
-import { MicroserviceConfig } from 'src/config/microservices.config';
+import { INVOICE_CMD } from '@novaCode/resource';
 
 
 @Injectable()
 export class InvoiceService {
     constructor(
 
-        @Inject(MicroserviceConfig.name) private readonly client: ClientProxy,
+        @Inject('MAIN_MICROSERVICE') private readonly client: ClientProxy,
     ) { }
 
     async create(dto: any) {
@@ -32,7 +32,7 @@ export class InvoiceService {
     async findAllWithTracks(): Promise<InvoiceWithTracksDto[]> {
         return firstValueFrom(
             this.client.send<InvoiceWithTracksDto[]>(
-                { cmd: 'find_all_invoices_with_tracks' },
+                INVOICE_CMD.FIND_ALL,
                 {}
             )
         );
