@@ -5,6 +5,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { InvoiceWithTracksDto } from './interfaces/invoice.interfaces';
 import { INVOICE_CMD } from '@novaCode/resource';
+import { PaginationParams } from 'src/interfaces/PaginationParam.interface';
 
 
 @Injectable()
@@ -18,8 +19,8 @@ export class InvoiceService {
         return firstValueFrom(this.client.send({ cmd: 'create_invoice' }, dto));
     }
 
-    async findAll(params: { page: number; limit: number; filter?: string }) {
-        return firstValueFrom(this.client.send({ cmd: 'find_all_invoices' }, params));
+    async findAll(params: PaginationParams) {
+        return firstValueFrom(this.client.send(INVOICE_CMD.FIND_ALL, params));
     }
 
 

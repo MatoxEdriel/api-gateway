@@ -6,7 +6,6 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
     imports: [
         ClientsModule.registerAsync([
             {
-
                 name: 'MAIN_MICROSERVICE',
                 inject: [ConfigService],
                 useFactory: (config: ConfigService) => ({

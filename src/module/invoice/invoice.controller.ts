@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { InvoiceService } from './invoice.service';
 import type { Response } from 'express';
+import { PaginationParams } from 'src/interfaces/PaginationParam.interface';
 @Controller('invoice')
 export class InvoiceController {
   constructor(private readonly invoiceService: InvoiceService) { }
@@ -16,7 +17,12 @@ export class InvoiceController {
     @Query('filter') filter?: string,
 
   ) {
-    return this.invoiceService.findAll({page, limit, filter});
+    const params: PaginationParams = {
+      page,
+      limit,
+      filter
+    }
+    return this.invoiceService.findAll(params);
   }
 
   @Post('pdf')
