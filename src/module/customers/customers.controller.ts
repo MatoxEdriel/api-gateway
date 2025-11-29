@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Put, ParseIntPipe } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { Payload } from '@nestjs/microservices';
 
 @Controller('customers')
 export class CustomersController {
@@ -25,6 +26,12 @@ export class CustomersController {
   }
 
 
-
+  @Put(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: UpdateCustomerDto) {
+    const payload = { id, data };
+    return this.customersService.update(payload);
+  }
 
 }

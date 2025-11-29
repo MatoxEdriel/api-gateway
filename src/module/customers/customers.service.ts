@@ -25,6 +25,12 @@ export class CustomersService {
     );
   }
 
+  async update(payload: { id: number; data: UpdateCustomerDto }) {
+    return firstValueFrom(
+      this.client.send(CUSTOMER_CMD.UPDATE, payload)
+    );
+  }
+
 
   async getAll(params: { page: number; limit: number; filter?: string }) {
 
