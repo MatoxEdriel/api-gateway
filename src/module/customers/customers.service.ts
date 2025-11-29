@@ -19,6 +19,12 @@ export class CustomersService {
 
 
 
+  async create(dto: CreateCustomerDto) {
+    return firstValueFrom(
+      this.client.send(CUSTOMER_CMD.CREATE, dto),
+    );
+  }
+
 
   async getAll(params: { page: number; limit: number; filter?: string }) {
 

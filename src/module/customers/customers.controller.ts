@@ -19,6 +19,12 @@ export class CustomersController {
     return this.customersService.getAll(params);
   }
 
+  @Post()
+  async create(@Body() payload: CreateCustomerDto) {
+    return this.customersService.create(payload);
+  }
+
+
 
 
 }
